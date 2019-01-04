@@ -14,7 +14,6 @@ Welcome to Method Cache's documentation!
    docs/code/exceptions.rst
    docs/code/helper.rst
    docs/code/store.rst
-   docs/tutorial/features.rst
    docs/tutorial/howtouse.rst
 
 Indices and tables

@@ -3,6 +3,7 @@ from methodcache import cache, Store
 
 st = Store(ttl=5)
 
+
 class Car:
 
     def __init__(self, serial_number, milage):

@@ -1,11 +1,13 @@
 # Python Method Cache
 
 [![Build Status](https://travis-ci.org/eieste/MethodCache.svg?branch=master)](https://travis-ci.org/eieste/MethodCache)
-[![PyPI version](https://badge.fury.io/py/method-cache.svg)](https://badge.fury.io/py/method-cache)
+[![PyPI version](https://badge.fury.io/py/methodcache.svg)](https://badge.fury.io/py/methodcache)
 
 ## What it does
 
 MethodCache can be used to cache the result of an method in a flexible way.
+This libary has no dependencies!
+
 **Currently only TTL Cache available**
 
 The cache storage can be segmented in categories.
@@ -44,7 +46,7 @@ doothings(1,2,3)
 
 ## Documentation
 
-[Read the Docs](https://readthedocs.org/projects/method-cache/)
+[Read the Docs](https://methodcache.readthedocs.io/en/latest/)
 
 or 
 show ``example.py``
