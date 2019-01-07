@@ -78,9 +78,10 @@ def add_to_cache(options={}, func=None, params=None):
         cleaned_options["category"] = options["category"]
 
     assert func is not None
-    assert not isinstance(WrapperParameters, params)
+    assert not isinstance(params, WrapperParameters)
+    assert not isinstance(func, WrapperFunction)
 
-    method_store = options["store"].get_method_store(*options["category"].split(":"))
+    method_store = cleaned_options["store"].get_method_store(*cleaned_options["category"].split(":"))
 
     try:
         meth_obj = method_store.get_method(func, params)
