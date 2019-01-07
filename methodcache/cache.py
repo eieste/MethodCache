@@ -78,8 +78,8 @@ def add_to_cache(options={}, func=None, params=None):
         cleaned_options["category"] = options["category"]
 
     assert func is not None
-    assert not isinstance(params, WrapperParameters)
-    assert not isinstance(func, WrapperFunction)
+    assert isinstance(params, WrapperParameters)
+    assert isinstance(func, WrapperFunction)
 
     method_store = cleaned_options["store"].get_method_store(*cleaned_options["category"].split(":"))
 
