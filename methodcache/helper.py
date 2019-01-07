@@ -36,19 +36,19 @@ class WrapperFunction:
 
 class WrapperParameters:
 
-    def __init__(self, arguments, keywordarguments):
+    def __init__(self, arguments=(), keyword_arguments={}):
         """
-            Wrap Parameters (arguments/args and keywordarguments/kwargs) and provide a compared list of these two
+            Wrap Parameters (arguments/args and keyword_arguments/kwargs) and provide a compared list of these two
 
             :param arguments: tuple of args
-            :param keywordarguments: dict of kwargs
+            :param keyword_arguments: dict of kwargs
         """
         self._args = list(arguments)
-        self._kwargs = dict(keywordarguments)
+        self._kwargs = dict(keyword_arguments)
 
     def get_args(self):
         """
-            Return list of args given args
+            Return list of given args
             :return list: args
         """
         return self._args
@@ -63,6 +63,13 @@ class WrapperParameters:
         for index, arg in enumerate(self._args):
             param["arg{}".format(index)] = hash(arg)
         return param
+
+    def get_kwargs(self):
+        """
+            Return list of given kwargs
+            :return list: kwargs
+        """
+        return self._kwargs
 
     def santize_kwargs(self):
         """

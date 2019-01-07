@@ -15,28 +15,6 @@ def cache(**options):
         :param store: Storage Object. To this object the cache entry was saved
         :param category: String in which Category the cache object should be sorted
     """
-    if "store" not in options:
-        setattr(Store.__class__, "_default_store", Store())
-        store = getattr(Store.__class__, "_default_store")
-    else:
-        store = options["store"]
-    assert isinstance(store, Store)
-
-    if "ttl" not in options:
-        ttl = options["store"].ttl
-    else:
-        ttl = options["ttl"]
-    assert type(ttl) is int
-
-    if "category" not in options:
-        category = "default"
-    else:
-        category = options["category"]
-    assert type(category) is str
-
-    _store = store
-    _category = category
-    _ttl = ttl
 
     def funcwrapper(func):
         """
@@ -49,26 +27,69 @@ def cache(**options):
         def methodcall(*args, **kwargs):
             """
                 Cache Implementaiton Checks if method in same category with the same
-                :param args:
-                :param kwargs:
+                :param args: Handover Arguments from orginal method
+                :param kwargs: Handover KeywordArguemnts from Orginal Method
                 :return:
             """
+
             _func = WrapperFunction(func)
             _params = WrapperParameters(args, kwargs)
 
-            method_store = _store.get_method_store(*_category.split(":"))
-            try:
-                meth_obj = method_store.get_method(_func, _params)
-                return meth_obj.get_result()
-            except NoMethod as e:
-                result = _func.get_func()(*args, **kwargs)
-                method_store.create(_func, _params, result)
-                return result
-            except TTLExpired as e:
-                result = _func.get_func()(*args, **kwargs)
-                method_store.create(_func, _params, result)
-                return result
+            return add_to_cache(options, _func, _params)
 
         return methodcall
 
     return funcwrapper
+
+
+def add_to_cache(options={}, func=None, params=None):
+    """
+        Seperated Add To Cache Method; Contains the function stack to add a function and there result to cache
+
+        :param options: dict with keys of store,category,ttl (previously validated)
+        :param func: orginal function
+        :param params: WrapperParameters object with *args and **kwargs from orginal function
+        :return any: Result created by orignal function
+    """
+    #: Contains validated options
+    cleaned_options = {}
+
+    #: Check Store; Create Store as static attribute in Store class or use handover store argument
+    if "store" not in options:
+        setattr(Store.__class__, "_default_store", Store())
+        cleaned_options["store"] = getattr(Store.__class__, "_default_store")
+    else:
+        assert isinstance(options["store"], Store)
+        cleaned_options["store"] = options["store"]
+
+    #: Check TTL; Set TTL from Store object or use handover argument ttl argument
+    if "ttl" not in options:
+        assert type(options["store"].ttl) is int
+        cleaned_options["ttl"] = options["store"].ttl
+    else:
+        assert type(options["ttl"]) is int
+        cleaned_options["ttl"] = options["ttl"]
+
+    #: Check category; Set default category or check if string
+    if "category" not in options:
+        cleaned_options["category"] = "default"
+    else:
+        assert type(options["category"]) is str
+        cleaned_options["category"] = options["category"]
+
+    assert func is not None
+    assert not isinstance(WrapperParameters, params)
+
+    method_store = options["store"].get_method_store(*options["category"].split(":"))
+
+    try:
+        meth_obj = method_store.get_method(func, params)
+        return meth_obj.get_result()
+    except NoMethod as e:
+        result = func.get_func()(*params.get_args(), **params.get_kwargs())
+        method_store.create(func, params, result)
+        return result
+    except TTLExpired as e:
+        result = func.get_func()(*params.get_args(), **params.get_kwargs())
+        method_store.create(func, params, result)
+        return result

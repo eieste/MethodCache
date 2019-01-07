@@ -1,7 +1,8 @@
 # Python Method Cache
 
 [![Build Status](https://travis-ci.org/eieste/MethodCache.svg?branch=master)](https://travis-ci.org/eieste/MethodCache)
-[![PyPI version](https://badge.fury.io/py/methodcache.svg)](https://badge.fury.io/py/methodcache)
+[![PyPI version](https://badge.fury.io/py/method-cache.svg)](https://badge.fury.io/py/method-cache)
+[![Documentation Status](https://readthedocs.org/projects/methodcache/badge/?version=latest)](https://methodcache.readthedocs.io/en/latest/?badge=latest)
 
 ## What it does
 
