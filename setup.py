@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="method_cache",
-    version="0.0.5",
+    version="1.0.0",
     author="Stefan Eiermann",
     author_email="python-org@ultraapp.de",
     description="Simple TTL Cache for methods and there results.",

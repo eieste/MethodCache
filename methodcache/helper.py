@@ -61,6 +61,7 @@ class WrapperParameters:
         """
         param = {}
         for index, arg in enumerate(self._args):
+            print(index)
             param["arg{}".format(index)] = hash(arg)
         return param
 
@@ -78,8 +79,14 @@ class WrapperParameters:
         """
         param = {}
         for name, value in self._kwargs.items():
-            param[name] = hash(value)
+            try:
+                param[name] = hash(value)
+            except TypeError as e:
+                param[name] = hash(tuple(sorted(hash(x) for x in value.items())))
+
         return param
+
+
 
     def santize_parameters(self):
         """
@@ -87,3 +94,5 @@ class WrapperParameters:
             :return dict: Merged dict of args and kwargs
         """
         return {**self.santize_args(), **self.santize_kwargs()}
+
+
