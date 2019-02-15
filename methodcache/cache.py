@@ -56,16 +56,18 @@ def add_to_cache(options={}, func=None, params=None):
 
     #: Check Store; Create Store as static attribute in Store class or use handover store argument
     if "store" not in options:
-        setattr(Store.__class__, "_default_store", Store())
-        cleaned_options["store"] = getattr(Store.__class__, "_default_store")
+        setattr(Store, "_default_store", Store())
+        cleaned_options["store"] = getattr(Store, "_default_store")
     else:
         assert isinstance(options["store"], Store)
         cleaned_options["store"] = options["store"]
 
     #: Check TTL; Set TTL from Store object or use handover argument ttl argument
     if "ttl" not in options:
-        assert type(options["store"].ttl) is int
+
+        assert type(cleaned_options["store"].ttl) is int
         cleaned_options["ttl"] = options["store"].ttl
+
     else:
         assert type(options["ttl"]) is int
         cleaned_options["ttl"] = options["ttl"]
