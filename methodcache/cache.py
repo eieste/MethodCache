@@ -66,7 +66,7 @@ def add_to_cache(options={}, func=None, params=None):
     if "ttl" not in options:
 
         assert type(cleaned_options["store"].ttl) is int
-        cleaned_options["ttl"] = options["store"].ttl
+        cleaned_options["ttl"] = cleaned_options["store"].ttl
 
     else:
         assert type(options["ttl"]) is int
