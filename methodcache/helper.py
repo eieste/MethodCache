@@ -61,7 +61,6 @@ class WrapperParameters:
         """
         param = {}
         for index, arg in enumerate(self._args):
-            print(index)
             param["arg{}".format(index)] = hash(arg)
         return param
 
